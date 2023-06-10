@@ -1,5 +1,17 @@
+import { NextFunction, Response, Request } from "express";
+import { UsersService } from "../services/UsersService";
 
-class UserController{
+class UsersController{
+
+    //inicializando variavel
+    private usersService: UsersService
+
+    //instanciando objeto
+    constructor(){
+        this.usersService = new UsersService();
+    }
+
+ 
     //buscar todos 
     index(){
     }
@@ -10,7 +22,18 @@ class UserController{
     }
 
     //criação do usuario
-    store(){
+    async store(request: Request, response: Response, next: NextFunction){
+        //parametros buscados pela requisição
+        const {name, email, password } = request.body;
+        try {
+            //criando nosso usuario
+            const result = await this.usersService.create({name, email, password});
+
+                //resposta da solicitação
+            return response.status(201).json(result);
+        } catch (error) {
+            next(error);
+        }
 
     }
 
@@ -21,4 +44,4 @@ class UserController{
 }
 
 
-export {UserController};
+export {UsersController};

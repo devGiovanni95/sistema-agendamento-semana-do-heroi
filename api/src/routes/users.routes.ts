@@ -1,5 +1,5 @@
 import { Router, request, response } from "express";
-import { UserController } from "../controllers/UsersController";
+import { UsersController } from "../controllers/UsersController";
 
 //trabalhando com classes
 class UsersRoutes{
@@ -7,13 +7,13 @@ class UsersRoutes{
     private router: Router;
 
     //inicializa uma variavel do tipo UserController criado em outra classe
-    private usersController: UserController;
+    private usersController: UsersController;
 
     //Pra chamar sempre o Router quando inicializar a classe com a variavel criada acima
     constructor(){
         this.router = Router();
         //instancia a classe pra sempre ser inicializada
-        this.usersController = new UserController();
+        this.usersController = new UsersController();
 
     }
 

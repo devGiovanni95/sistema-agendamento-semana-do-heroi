@@ -12,4 +12,20 @@
 ## npx prisma init --datasource-provider sqlite
 ## yarn add @prisma/client
 ## npx prisma generate
+## yarn prisma migrate dev --pra alterar o banco de dadxos
+
+## yarn add bcrypt -- encriptador de senhas
+## yarn add @types/bcrypt -D  
 ##
+##
+##
+##
+##
+##
+
+
+
+
+
+
+

@@ -1,7 +1,7 @@
-import express, { Application } from 'express'
+import express, { Application, Request, Response, NextFunction } from 'express'
 import { UsersRoutes } from './routes/users.routes';
 
-const app:Application = express();
+const app: Application = express();
 
 //Converter tudo em json
 app.use(express.json());
@@ -12,7 +12,22 @@ app.use(express.urlencoded({extended:true}));
 const usersRoutes = new UsersRoutes().getRoutes() 
 
 //funcionara como intermediador e passara sempre a rota de /users para simplificar na classe controller
-app.use('/users',usersRoutes)
+app.use('/users', usersRoutes)
+
+//tratamento de erros 
+//throw new Error('error'); se tiver um deste ele executa este metodo
+app.use((err: Error, request: Request, response: Response, next: NextFunction) => {
+    if(err instanceof Error){
+        return response.status(400).json({
+            message: err.message,
+        });
+    }
+    //erro de conexao
+        return response.status(500).json({
+            message: 'Internal Server Error'
+        });
+    },
+);
 
 //Listando e definido serves
 app.listen(3000, ()=>console.log('Server is running'))
