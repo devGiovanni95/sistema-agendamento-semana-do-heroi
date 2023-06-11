@@ -1,5 +1,5 @@
 import { UsersRepository } from "../repositories/UsersRepository"
-import { ICreate } from "../interfaces/UsersInterface";
+import { ICreate, IUpdate } from "../interfaces/UsersInterface";
 import { hash } from "bcrypt";
 
 class UsersService{
@@ -32,5 +32,12 @@ class UsersService{
         });
         return create;
     }
+
+    update({
+        name, 
+        oldPassword, 
+        newPassword, 
+        avatar_url
+    }: IUpdate){}
 }
  export{UsersService}

@@ -1,5 +1,6 @@
 import { Router, request, response } from "express";
 import { UsersController } from "../controllers/UsersController";
+import { upload } from "../config/multer";
 
 //trabalhando com classes
 class UsersRoutes{
@@ -25,6 +26,7 @@ class UsersRoutes{
         );
         this.router.put(
             '/', 
+            upload.single('avatar_url'),
             this.usersController.update.bind(this.usersController),
         );
 

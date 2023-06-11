@@ -1,35 +1,37 @@
 import { NextFunction, Response, Request } from "express";
 import { UsersService } from "../services/UsersService";
+import { s3 } from "../config/aws";
+import { v4 as uuid } from 'uuid';
 
-class UsersController{
+class UsersController {
 
     //inicializando variavel
     private usersService: UsersService
 
     //instanciando objeto
-    constructor(){
+    constructor() {
         this.usersService = new UsersService();
     }
 
- 
+
     //buscar todos 
-    index(){
+    index() {
     }
 
     //buscar somente um
-    show(){
+    show() {
 
     }
 
     //criação do usuario
-    async store(request: Request, response: Response, next: NextFunction){
+    async store(request: Request, response: Response, next: NextFunction) {
         //parametros buscados pela requisição
-        const {name, email, password } = request.body;
+        const { name, email, password } = request.body;
         try {
             //criando nosso usuario
-            const result = await this.usersService.create({name, email, password});
+            const result = await this.usersService.create({ name, email, password });
 
-                //resposta da solicitação
+            //resposta da solicitação
             return response.status(201).json(result);
         } catch (error) {
             next(error);
@@ -38,21 +40,42 @@ class UsersController{
     }
 
     //Autenticar o usuario
-    auth(){
+    auth() {
 
     }
 
     //Alterar dados
-    update(request: Request, response: Response, next: NextFunction){
-        const {name, oldPassword, newPassword} = request.body;
-        console.log(request.files);
-        try{
+    async update(request: Request, response: Response, next: NextFunction) {
+        const { name, oldPassword, newPassword } = request.body;
+        //testar o que estava passando
+        console.log(request.file);
+        try {
+            //Bufer da imagem
+            const avatar_url = request.file?.buffer;
+            //Criando a conexao e envio do arquivo renomeando o mesmo
+            const uploadS3 = await s3.upload({
+                Bucket: 'hero-devgiovanni95',
+                Key: `${uuid()}-${request.file?.originalname}`,
+                //Nao temos permissão de acl
+                // ACL: 'public-read',
+                Body: avatar_url,
+            })
+                .promise();
+            console.log('Url da imagem =>', uploadS3.Location);
 
-        }catch(error){
+            const result = await this.usersService.update({ 
+                name, 
+                oldPassword, 
+                newPassword, 
+                avatar_url: request.file, 
+            });
+            return response.status(200).json(result);
+
+        } catch (error) {
             next(error);
-        }     
+        }
     }
 }
 
 
-export {UsersController};
+export { UsersController };
