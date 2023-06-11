@@ -16,7 +16,7 @@
 
 ## yarn add bcrypt -- encriptador de senhas
 ## yarn add @types/bcrypt -D  
-##
+## yarn add multer
 ##
 ##
 ##

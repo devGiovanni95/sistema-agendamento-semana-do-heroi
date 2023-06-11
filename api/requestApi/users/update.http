@@ -1,0 +1,23 @@
+PUT http://localhost:3000/users/
+Content-Type: multipart/form-data; boundary=boundarystring
+
+--boundarystring
+Content-Disposition: form-data; name="name"
+
+Joao
+--boundarystring
+Content-Disposition: form-data; name="oldPassword"
+
+123456
+--boundarystring
+Content-Disposition: form-data; name="newPassword"
+
+124512
+--boundarystring
+Content-Disposition: form-data; name="avatar_url"; filename="download.jpg"
+Content-Type: image/jpeg
+
+[conteúdo binário do arquivo]
+
+--boundarystring--
+
