@@ -24,6 +24,17 @@
 ## yarn add @types/jsonwebtoken -D
 ## tokem pelo site https://www.md5hashgenerator.com/
 
+## yarn add date-fns   ----library de data
+## 
+## 
+## 
+## 
+## 
+## 
+## 
+## 
+## 
+
 
 
 
