@@ -48,6 +48,7 @@ class UsersService {
                 throw new Error('User not found');
             }
             const passwordMatch = compare(oldPassword, findUserById.password);
+
         if(!passwordMatch){
             throw new Error("Password invalid. ");
             }
@@ -55,7 +56,7 @@ class UsersService {
             password = await hash(newPassword, 10);
            
             //alterando somente a senha
-            await this.usersRepository.updatePassword(newPassword, user_id);
+            await this.usersRepository.updatePassword(password, user_id);
         }
         
         if(avatar_url){
@@ -63,11 +64,11 @@ class UsersService {
             
             //Bufer da imagem -- a interrogacao mostra que ele é opcional
             const uploadImage = avatar_url?.buffer;
-        //Criando a conexao e envio do arquivo renomeando o mesmo
-        const uploadS3 = await s3.upload({
+            //Criando a conexao e envio do arquivo renomeando o mesmo
+            const uploadS3 = await s3.upload({
             Bucket: 'hero-devgiovanni95',
             Key: `${uuid()}-${avatar_url?.originalname}`,
-            Body: avatar_url,
+            Body: uploadImage,
         })
             .promise();
             

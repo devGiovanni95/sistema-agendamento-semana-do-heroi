@@ -73,7 +73,7 @@ class UsersController {
                 name, 
                 oldPassword, 
                 newPassword, 
-                avatar_url : request.file, 
+                avatar_url: request.file, 
                 user_id,
             });
             return response.status(200).json(result);
