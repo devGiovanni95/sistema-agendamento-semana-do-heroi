@@ -19,9 +19,10 @@
 ## yarn add multer
 ## yarn add uuid
 ## yarn add  @types/uuid -D
-##
-##
-##
+
+## yarn add jsonwebtoken 
+## yarn add @types/jsonwebtoken -D
+## tokem pelo site https://www.md5hashgenerator.com/
 
 
 

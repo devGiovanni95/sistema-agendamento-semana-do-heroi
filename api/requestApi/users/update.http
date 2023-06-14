@@ -1,6 +1,6 @@
 PUT http://localhost:3000/users/
 Content-Type: multipart/form-data; boundary=boundarystring
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imdpb3Zhbm5pMUBnbWFpbC5jb20iLCJpYXQiOjE2ODY2OTUyMDksImV4cCI6MTY4NjY5NjEwOSwic3ViIjoiYzc3Zjc5N2ItMTNmYi00YzJjLWJmMWItYmExYTg5ZTkyMzJlIn0.qBP6fGY4NQmJWfekXijit5oFLf2hTLDqdNkMMoSbP24
 --boundarystring
 Content-Disposition: form-data; name="name"
 

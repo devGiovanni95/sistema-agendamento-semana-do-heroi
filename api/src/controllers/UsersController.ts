@@ -1,12 +1,11 @@
 import { NextFunction, Response, Request } from "express";
 import { UsersService } from "../services/UsersService";
-import { s3 } from "../config/aws";
-import { v4 as uuid } from 'uuid';
+
 
 class UsersController {
 
     //inicializando variavel
-    private usersService: UsersService
+    private usersService: UsersService;
 
     //instanciando objeto
     constructor() {
@@ -40,37 +39,44 @@ class UsersController {
     }
 
     //Autenticar o usuario
-    auth() {
+   async  auth(request: Request, response: Response, next: NextFunction) {
+        const { email, password } = request.body;
+        try {
+            const result = await this.usersService.auth( email, password );
+
+            return response.json(result);
+        } catch (error) {
+          next(error);           
+        }
 
     }
+
+    async refresh(request: Request, response: Response, next: NextFunction) {
+        const { refresh_token } = request.body;
+        try {
+          const result = await this.usersService.refresh(refresh_token);
+          return response.json(result);
+        } catch (error) {
+          next(error);
+        }
+      }
 
     //Alterar dados
     async update(request: Request, response: Response, next: NextFunction) {
         const { name, oldPassword, newPassword } = request.body;
+        const { user_id } = request;
         //testar o que estava passando
-        console.log(request.file);
+        //console.log(request.file);
         try {
-            //Bufer da imagem
-            const avatar_url = request.file?.buffer;
-            //Criando a conexao e envio do arquivo renomeando o mesmo
-            const uploadS3 = await s3.upload({
-                Bucket: 'hero-devgiovanni95',
-                Key: `${uuid()}-${request.file?.originalname}`,
-                //Nao temos permissão de acl
-                // ACL: 'public-read',
-                Body: avatar_url,
-            })
-                .promise();
-            console.log('Url da imagem =>', uploadS3.Location);
-
+            
             const result = await this.usersService.update({ 
                 name, 
                 oldPassword, 
                 newPassword, 
-                avatar_url: request.file, 
+                avatar_url : request.file, 
+                user_id,
             });
             return response.status(200).json(result);
-
         } catch (error) {
             next(error);
         }
