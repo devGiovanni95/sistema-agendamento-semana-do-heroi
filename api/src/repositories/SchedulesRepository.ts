@@ -10,7 +10,7 @@ class SchedulesRepository{
                 date,
             },
         });
-        return result;
+        return result;  
     }
 
 
