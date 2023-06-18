@@ -35,5 +35,10 @@ class SchedulesService{
 
         return create;
     }
+    async index(date: Date){
+        const result = await this.schedulesRepository.findAll(date);
+        console.log(result.toString())
+        return result;
+    }
 }
 export {SchedulesService}
