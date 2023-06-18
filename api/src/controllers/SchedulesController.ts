@@ -26,13 +26,24 @@ class SchedulesController{
         try {
             const result = await this.schedulesService.index(parseDate);
 
-            return response.status(201).json(result);
+            return response.json(result);
         } catch (error) {
             next(error);
         }
     }
 
-    update(request: Request, response: Response, next: NextFunction){}
+    async update(request: Request, response: Response, next: NextFunction){
+        const {id} = request.params;
+        const {date} = request.body;
+        try {
+            const result = await this.schedulesService.update(id,date);
+
+            return response./*status(201). */json(result);
+        } catch (error) {
+            next(error);
+        }
+    }
+
     delete(request: Request, response: Response, next: NextFunction){}
     
 }

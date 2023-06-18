@@ -25,8 +25,8 @@
 ## tokem pelo site https://www.md5hashgenerator.com/
 
 ## yarn add date-fns   ----library de data
-## 
-## 
+## yard add cors
+## yarn add @types/cors -D
 ## 
 ## 
 ## 
