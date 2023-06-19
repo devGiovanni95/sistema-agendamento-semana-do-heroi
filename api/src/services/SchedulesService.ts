@@ -10,7 +10,7 @@ class SchedulesService{
         this.schedulesRepository = new SchedulesRepository();
     }
     
-    async create({name, phone, date}: ICreate){
+    async create({name, phone, date, user_id}: ICreate){
         
         const dateFormatted = new Date(date);
 
@@ -21,7 +21,7 @@ class SchedulesService{
             
         }
         
-        const checkIsAvailable = await this.schedulesRepository.find(hourStart);
+        const checkIsAvailable = await this.schedulesRepository.find(hourStart,user_id);
 
         if(checkIsAvailable){
             throw new Error('Schedule date is not avaliable - Agendamento de data não Disponível');
@@ -30,7 +30,8 @@ class SchedulesService{
         const create = await this.schedulesRepository.create({
             name,
             phone, 
-            date:hourStart
+            date:hourStart,
+            user_id
         });
 
         return create;
@@ -40,7 +41,7 @@ class SchedulesService{
         return result;
     }
 
-    async update(id: string, date: Date){
+    async update(id: string, date: Date, user_id: string){
         const dateFormatted = new Date(date);
         const hourStart = startOfHour(dateFormatted);
 
@@ -57,7 +58,7 @@ class SchedulesService{
             throw new Error('It is not allowed to schedule old date - Não é permitido agendar em uma data antiga.');            
         }
         
-        const checkIsAvailable = await this.schedulesRepository.find(hourStart);
+        const checkIsAvailable = await this.schedulesRepository.find(hourStart, user_id);
 
         if(checkIsAvailable){
             throw new Error('Schedule date is not avaliable - Agendamento de data não Disponível');

@@ -1,11 +1,11 @@
-import express, { Application, Request, Response, NextFunction } from 'express'
+import express, { Application, Request, Response, NextFunction } from 'express';
 import { UsersRoutes } from './routes/users.routes';
-import multer from 'multer';
-import { upload } from './config/multer';
 import { SchedulesRoutes } from './routes/schedules.routes';
+import cors from 'cors';
 
 const app: Application = express();
-
+//acessar via frontend
+app.use(cors());
 //Converter tudo em json
 app.use(express.json());
 //converter espaços nas urls e troca espaços por %

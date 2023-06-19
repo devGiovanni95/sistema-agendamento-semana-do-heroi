@@ -28,8 +28,8 @@
 ## yard add cors
 ## yarn add @types/cors -D
 ## 
-## 
-## 
+## yarn prisma migrate dev --create-only
+## yarn prisma studio
 ## 
 ## 
 ## 

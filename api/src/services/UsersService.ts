@@ -6,9 +6,9 @@ import { v4 as uuid } from 'uuid';
 import { sign, verify } from "jsonwebtoken";
 
 class UsersService {
-   /* auth() {
-        throw new Error("Method not implemented.");
-    }*/
+    /* auth() {
+         throw new Error("Method not implemented.");
+     }*/
     //Criando a variavel
     private usersRepository: UsersRepository
 
@@ -42,110 +42,119 @@ class UsersService {
     async update({ name, oldPassword, newPassword, avatar_url, user_id }: IUpdate) {
 
         let password;
-        if(oldPassword && newPassword){
+        if (oldPassword && newPassword) {
             const findUserById = await this.usersRepository.findUserById(user_id);
-            if(!findUserById){
+            if (!findUserById) {
                 throw new Error('User not found');
             }
             const passwordMatch = compare(oldPassword, findUserById.password);
 
-        if(!passwordMatch){
-            throw new Error("Password invalid. ");
+            if (!passwordMatch) {
+                throw new Error("Password invalid. ");
             }
             //criptografando a senha
             password = await hash(newPassword, 10);
-           
+
             //alterando somente a senha
             await this.usersRepository.updatePassword(password, user_id);
         }
-        
-        if(avatar_url){
 
-            
+        if (avatar_url) {
+
+
             //Bufer da imagem -- a interrogacao mostra que ele é opcional
             const uploadImage = avatar_url?.buffer;
             //Criando a conexao e envio do arquivo renomeando o mesmo
             const uploadS3 = await s3.upload({
-            Bucket: 'hero-devgiovanni95',
-            Key: `${uuid()}-${avatar_url?.originalname}`,
-            Body: uploadImage,
-        })
-            .promise();
-            
+                Bucket: 'hero-devgiovanni95',
+                Key: `${uuid()}-${avatar_url?.originalname}`,
+                Body: uploadImage,
+            })
+                .promise();
+
             console.log('Url da imagem =>', uploadS3.Location);
 
             //alterando o nome o endereco da imagem e o id do usuario
             await this.usersRepository.update(name, uploadS3.Location, user_id);
         }
-            return{
-                message: 'User updated successfully',
-            };
-        }
+        return {
+            message: 'User updated successfully',
+        };
+    }
 
-   async auth(email: string, password: string){
+    async auth(email: string, password: string) {
         const findUser = await this.usersRepository.findUserByEmail(email);
-        if(!findUser){
+        if (!findUser) {
             //mensagem generica para nao entregar uma informacao para um outro usuario 
             //causando na dimensas tentativas de acerto por terceiros
             throw new Error("User or Password invalid. ");
         }
         //comparar se o password está igual
         const passwordMatch = compare(password, findUser.password);
-        
-        if(!passwordMatch){
+
+        if (!passwordMatch) {
             throw new Error("User or Password invalid. ");
         }
-        
-        let secretKey:string | undefined =  process.env.ACCESS_KEY_TOKEN
-        
-        if(!secretKey){
-            throw new Error("There is no token key ");
 
+        let secretKey: string | undefined = process.env.ACCESS_KEY_TOKEN;
+        if (!secretKey) {
+            throw new Error("There is no token key ");
+        }
+        let secretKeyRefreshToken: string | undefined =
+            process.env.ACCESS_KEY_TOKEN_REFRESH;
+        if (!secretKeyRefreshToken) {
+            throw new Error('There is no token key');
         }
 
-        //gerando chave secreta
-        const token = sign({email},secretKey ,{
-            //o que vai no meio do token
+
+        const token = sign({ email }, secretKey, {
             subject: findUser.id,
-            //tempo de expiracao do token
-            expiresIn: 60 * 15, 
+            expiresIn: '60s',
+        });
+        const refreshToken = sign({ email }, secretKeyRefreshToken, {
+            subject: findUser.id,
+            expiresIn: '7d',
         });
 
         return {
             token,
+            refresh_token: refreshToken,
             user: {
                 name: findUser.name,
                 email: findUser.email,
+                avatar_url: findUser.avatar_url,
             }
         }
     }
 
     async refresh(refresh_token: string) {
         if (!refresh_token) {
-          throw new Error('Refresh token missing');
+            throw new Error('Refresh token missing');
         }
+
         let secretKeyRefresh: string | undefined =
-          process.env.ACCESS_KEY_TOKEN_REFRESH;
+            process.env.ACCESS_KEY_TOKEN_REFRESH;
         if (!secretKeyRefresh) {
-          throw new Error('There is no refresh token key');
+            throw new Error('There is no refresh token key');
         }
-    
+
         let secretKey: string | undefined = process.env.ACCESS_KEY_TOKEN;
         if (!secretKey) {
-          throw new Error('There is no refresh token key');
+            throw new Error('There is no refresh token key');
         }
         const verifyRefreshToken = verify(refresh_token, secretKeyRefresh);
-    
+
+        //pegando o id que esta no sub
         const { sub } = verifyRefreshToken;
-    
+
         const newToken = sign({ sub }, secretKey, {
-          expiresIn: '1h',
+            expiresIn: '1h',
         });
         const refreshToken = sign({ sub }, secretKeyRefresh, {
-          expiresIn: '7d',
+            expiresIn: '7d',
         });
         return { token: newToken, refresh_token: refreshToken };
-      }
-    
+    }
+
 }
 export { UsersService };
