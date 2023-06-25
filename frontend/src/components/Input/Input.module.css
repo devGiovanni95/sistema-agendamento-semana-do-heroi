@@ -30,3 +30,7 @@
     background-color: var(--white);
 }
 
+.container span{
+    color: rgb(192, 32, 32);
+}
+
