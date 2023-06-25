@@ -20,6 +20,7 @@
     box-shadow: 4px 8px 4px rgba(43, 6, 6, 0.2);
     border-radius: 24px;
     padding: 3rem;
+    text-align: center;
 }
 
 .container{
@@ -29,4 +30,11 @@
 
 .wrapper>div:first-child{
 text-align: center;
+}
+
+.card h2{
+    color: var(--black);
+    font-style: normal;
+    font-size: 1.5rem;
+    font-weight: 500;
 }
