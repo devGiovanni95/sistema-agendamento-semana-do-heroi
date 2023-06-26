@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 import { IFormValues } from "../../interfaces/InterfaceLogin"
 import * as yup from 'yup'
 import { yupResolver } from "@hookform/resolvers/yup"
+import {Button} from "./../../components/Button"
 
 
 export function Login() {
@@ -43,7 +44,7 @@ export function Login() {
                            < Input placeholder="Senha"
                            type="password"
                                 {...register('password', {required: true})}/>
-                            <button>Entrar</button>
+                            <Button text='Entrar'/>
                         </form>
                     </div>
 
