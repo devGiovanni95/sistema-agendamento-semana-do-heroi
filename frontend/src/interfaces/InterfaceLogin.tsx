@@ -21,3 +21,17 @@ export interface IFormValuesRegister{
 export interface IButton{
     text: string;
 }
+
+export interface IAuthProvider{
+    children: ReactNode;
+}
+
+export interface IAuthContextData{
+    signIn:({ email, password}: ISignIn) => void;
+}
+
+export interface ISignIn{
+    email: string;
+    password: string;
+}
+

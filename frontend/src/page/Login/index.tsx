@@ -10,10 +10,14 @@ import { Link, useNavigate } from "react-router-dom"
 import { MdEmail } from "react-icons/md"
 import { RiLockPasswordFill } from "react-icons/ri"
 import { api } from "../../server"
+import { useAuth } from "../../hooks/auth"
 
 
 export function Login() {
+
+    const {signIn} = useAuth();
     const navigate = useNavigate();
+
     const schema = yup.object().shape({
         email: yup
             .string()
@@ -28,10 +32,7 @@ export function Login() {
     });
     const submit = handleSubmit(async ({ email, password}) => {
     
-        const result = await api.post('/users/auth', {
-            email,
-            password,
-        }) 
+     await signIn({email, password})
         navigate('/dashboard');
         console.log("🚀 ~ file: index.tsx:35 ~ submit ~ result:", result)
 
