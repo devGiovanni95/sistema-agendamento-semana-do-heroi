@@ -7,11 +7,26 @@ export const AuthContext = createContext({} as IAuthContextData);
 export function AuthProvider({children}:IAuthProvider){
     async function signIn({email, password}: ISignIn){
             try {
-                const result = await api.post('/users/auth',{
+                //const result = await api.post('/users/auth',{
+                const {data} = await api.post('/users/auth',{
                     email,
                     password,
                 });
-                console.log("🚀 ~ file: AuthContext.tsx:15 ~ signIn ~ result:", result);                
+
+                const {token, refresh_token,user} = data;
+                const userData = {
+                    name: user.name,
+                    email: user.email,
+                    avatar_url: user.avatar_url,
+                }
+
+                //localStorage.setItem("🚀 ~ file: AuthContext.tsx:15 ~ signIn ~ result:", result.data.token); 
+
+                localStorage.setItem('token:semana-heroi', token);                
+                localStorage.setItem('refresh_token:semana-heroi', refresh_token); 
+                localStorage.setItem('user:semana-heroi',JSON.stringify(userData)); 
+                return data;
+
             } catch (error) {
                 console.log("🚀 ~ file: AuthContext.tsx:17 ~ signIn ~ error:", error)
             }        
