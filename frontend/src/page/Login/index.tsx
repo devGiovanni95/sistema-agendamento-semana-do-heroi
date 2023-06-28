@@ -2,10 +2,13 @@ import style from "./Login.module.css"
 import logo from "../../assets/logo.webp"
 import {Input} from "../../components/Input"
 import { useForm } from "react-hook-form"
-import { IFormValues } from "../../interfaces/InterfaceLogin"
+import { IFormValuesLogin } from "../../interfaces/InterfaceLogin"
 import * as yup from 'yup'
 import { yupResolver } from "@hookform/resolvers/yup"
 import {Button} from "./../../components/Button"
+import { Link } from "react-router-dom"
+import { MdEmail } from "react-icons/md"
+import { RiLockPasswordFill } from "react-icons/ri"
 
 
 export function Login() {
@@ -18,7 +21,7 @@ export function Login() {
             .string()
             .required('Campo de senha obrigatório')          
     })
-    const {register, handleSubmit, formState:{errors}} = useForm<IFormValues>({
+    const {register, handleSubmit, formState:{errors}} = useForm<IFormValuesLogin>({
         resolver: yupResolver(schema)
     });
     const submit = handleSubmit((data) => {
@@ -39,13 +42,26 @@ export function Login() {
                             type="text"
                                 {...register('email', {required: true})}
                                 error={errors.email && errors.email.message}    
+                                icon={ <MdEmail size={20}/>} 
                             />
 
                            < Input placeholder="Senha"
                            type="password"
-                                {...register('password', {required: true})}/>
+                                {...register('password', {required: true})}
+                                error={errors.password && errors.password.message}   
+                                icon={ <RiLockPasswordFill size={20}/>}   
+                            />
+
                             <Button text='Entrar'/>
                         </form>
+                        <div className={style.register}>
+                            <span>
+                                Ainda não tem conta?  
+                                <Link to={'/register'}>
+                                    Cadastre-se
+                                </Link>{' '}
+                            </span>
+                        </div>
                     </div>
 
                 </div>

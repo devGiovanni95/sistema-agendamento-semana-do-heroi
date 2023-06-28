@@ -42,3 +42,17 @@
     font-size: 2rem;
     font-weight: 500;
 }
+.register span{
+    color: var(--white);
+    font-weight: 500;
+    font-size: 1.2rem;
+}
+
+.register{
+    text-align: left;
+    margin-top: .8rem;
+}
+
+.register a{
+    color: var(--white);
+}

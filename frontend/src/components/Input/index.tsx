@@ -1,10 +1,10 @@
 import { ForwardRefRenderFunction, forwardRef } from 'react';
 import { IInput } from '../../interfaces/InterfaceLogin';
 import style from './Input.module.css';
-import {MdEmail} from 'react-icons/md';
+
 
 const InputBase: ForwardRefRenderFunction < HTMLInputElement, IInput > = (
-         { placeholder, type,error, ...rest },
+         { placeholder, type, error, icon,  ...rest },
             ref,
     ) => {
 
@@ -12,7 +12,7 @@ const InputBase: ForwardRefRenderFunction < HTMLInputElement, IInput > = (
         <div className={style.container}>
             <label htmlFor="">
                 <i aria-hidden="true">
-                <MdEmail size={20}/>
+                    {icon}
                 </i>
                 <input type={type} placeholder={placeholder} ref={ref} {...rest}/>
             </label>
