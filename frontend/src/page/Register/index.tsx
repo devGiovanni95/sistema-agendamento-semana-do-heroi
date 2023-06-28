@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form'
 import {MdEmail} from 'react-icons/md';
 import {IoMdPersonAdd} from 'react-icons/io';
 import {RiLockPasswordFill} from 'react-icons/ri';
+import { api } from '../../server'
 
 export function Register(){
     const schema = yup.object().shape({
@@ -31,9 +32,15 @@ export function Register(){
          formState:{errors}
     } = useForm<IFormValuesRegister>({resolver: yupResolver(schema)});
 
-    const submit = handleSubmit((data) => {
-    console.log("🚀 ~ file: index.tsx:32 ~ submit ~ data:", data)
+    const submit = handleSubmit(async(data) => {
+    // console.log("🚀 ~ file: index.tsx:32 ~ submit ~ data:", data)
+        const result = await api.post('/users', {
+            name: data.name,
+            email: data.email,
+            password: data.password
 
+        })
+        console.log("🚀 ~ file: index.tsx:43 ~ submit ~ result:", result)
     })
 
     return(

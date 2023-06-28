@@ -8,3 +8,17 @@
 tratar os erros nos formularios  
 ## yarn add yup
 ## npm add @hookform/resolvers   
+
+## yarn add axios
+## 
+## 
+## 
+## 
+## 
+## 
+## 
+## 
+## 
+## 
+## 
+## 
