@@ -9,6 +9,7 @@ import {Button} from "./../../components/Button"
 import { Link } from "react-router-dom"
 import { MdEmail } from "react-icons/md"
 import { RiLockPasswordFill } from "react-icons/ri"
+import { api } from "../../server"
 
 
 export function Login() {
@@ -24,9 +25,14 @@ export function Login() {
     const {register, handleSubmit, formState:{errors}} = useForm<IFormValuesLogin>({
         resolver: yupResolver(schema)
     });
-    const submit = handleSubmit((data) => {
-        console.log("🚀 ~ file: index.tsx:24 ~ submit ~ data:", data)
-        return 
+    const submit = handleSubmit(async ({ email, password}) => {
+    
+        const result = await api.post('/users/auth', {
+            email,
+            password,
+        }) 
+        console.log("🚀 ~ file: index.tsx:35 ~ submit ~ result:", result)
+
     })
     return (
         <div className={style.background}>
