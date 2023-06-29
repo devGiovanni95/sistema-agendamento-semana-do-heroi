@@ -3,10 +3,12 @@ import { IAuthContextData, IAuthProvider, ISignIn } from "../interfaces/Interfac
 import { api } from "../server";
 import { isAxiosError } from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext({} as IAuthContextData);
 
 export function AuthProvider({children}:IAuthProvider){
+    const navigate = useNavigate()
     async function signIn({email, password}: ISignIn){
             try {
                 //const result = await api.post('/users/auth',{
@@ -27,14 +29,17 @@ export function AuthProvider({children}:IAuthProvider){
                 localStorage.setItem('token:semana-heroi', token);                
                 localStorage.setItem('refresh_token:semana-heroi', refresh_token); 
                 localStorage.setItem('user:semana-heroi',JSON.stringify(userData)); 
+
+                navigate('/dashboard');
+                toast.success(`Seja bem vindo, ${userData.name}`)
                 return data;
 
             } catch (error) {
-                console.log("🚀 ~ file: AuthContext.tsx:17 ~ signIn ~ error:", error)
+               // console.log("🚀 ~ file: AuthContext.tsx:17 ~ signIn ~ error:", error)
                 if(isAxiosError(error)){
                     toast.error(error.response?.data.message);
                 }else{
-                    toast.error('we were unable to login. Try later - Não conseguimos fazer o login. Tente mais tarde ')
+                    toast.error('we were unable to login. Try later - Não conseguimos fazer o login. Tente mais tarde ');
                 }
             }        
     }

@@ -90,7 +90,7 @@ class UsersService {
             throw new Error("User or Password invalid. ");
         }
         //comparar se o password está igual
-        const passwordMatch = compare(password, findUser.password);
+        const passwordMatch = await compare(password, findUser.password);
 
         if (!passwordMatch) {
             throw new Error("User or Password invalid. ");
@@ -153,7 +153,7 @@ class UsersService {
         const refreshToken = sign({ sub }, secretKeyRefresh, {
             expiresIn: '7d',
         });
-        return { token: newToken, refresh_token: refreshToken };
+        return { token: newToken/*, refresh_token: refreshToken*/ };
     }
 
 }

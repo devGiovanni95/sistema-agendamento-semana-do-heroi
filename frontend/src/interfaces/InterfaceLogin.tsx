@@ -1,3 +1,4 @@
+import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import { ReactNode } from "react";
 
 export interface IInput{
@@ -35,3 +36,7 @@ export interface ISignIn{
     password: string;
 }
 
+export interface IRequestConfig extends AxiosRequestConfig{
+    onFailure?: (error: AxiosError) => void;
+    onSuccess?: (response: AxiosResponse) => void;
+}

@@ -15,6 +15,15 @@ class SchedulesService{
         const dateFormatted = new Date(date);
 
         const hourStart = startOfHour(dateFormatted);
+        
+        //pegar hora
+        const hour = getHours(dateFormatted);
+
+        //comparando as horas
+        if(hour < 9 || hour > 19){
+            throw new Error('Create Schedules between 9 and 19 - Crie o Agendamento entre 9 e 19 horas.');
+        }
+
 
         if(isBefore(hourStart, new Date())){
             throw new Error('It is not allowed to schedule old date  - Não é permitido agendar em uma data antiga');
@@ -30,8 +39,8 @@ class SchedulesService{
         const create = await this.schedulesRepository.create({
             name,
             phone, 
-            date:hourStart,
-            user_id
+            date: hourStart,
+            user_id,
         });
 
         return create;
@@ -45,20 +54,14 @@ class SchedulesService{
         const dateFormatted = new Date(date);
         const hourStart = startOfHour(dateFormatted);
 
-        //pegar hora
-        const hour = getHours(dateFormatted);
-
-        //comparando as horas
-        if(hour < 9 || hour > 19){
-            throw new Error('Create Schedules between 9 and 19 - Crie o Agendamento entre 9 e 19 horas.');
-        }
-
-
         if(isBefore(hourStart, new Date())){
             throw new Error('It is not allowed to schedule old date - Não é permitido agendar em uma data antiga.');            
         }
         
-        const checkIsAvailable = await this.schedulesRepository.find(hourStart, user_id);
+        const checkIsAvailable = await this.schedulesRepository.find(
+            hourStart, 
+            user_id,
+            );
 
         if(checkIsAvailable){
             throw new Error('Schedule date is not avaliable - Agendamento de data não Disponível');
