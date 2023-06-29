@@ -32,10 +32,9 @@ export function Login() {
     });
     const submit = handleSubmit(async ({ email, password}) => {
     
-     await signIn({email, password})
-        navigate('/dashboard');
-        console.log("🚀 ~ file: index.tsx:35 ~ submit ~ result:", result)
-
+     signIn({email, password})
+       /* navigate('/dashboard');
+        console.log("🚀 ~ file: index.tsx:35 ~ submit ~ result:", result)*/
     })
     return (
         <div className={style.background}>

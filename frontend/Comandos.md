@@ -11,7 +11,7 @@ tratar os erros nos formularios
 
 ## yarn add axios
 ## 
-## 
+## yarn add react-toastify    - avisos
 ## 
 ## 
 ## 

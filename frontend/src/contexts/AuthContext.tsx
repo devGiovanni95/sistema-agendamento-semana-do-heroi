@@ -1,6 +1,8 @@
 import { createContext, useState } from "react";
 import { IAuthContextData, IAuthProvider, ISignIn } from "../interfaces/InterfaceLogin";
 import { api } from "../server";
+import { isAxiosError } from "axios";
+import { toast } from "react-toastify";
 
 export const AuthContext = createContext({} as IAuthContextData);
 
@@ -18,7 +20,7 @@ export function AuthProvider({children}:IAuthProvider){
                     name: user.name,
                     email: user.email,
                     avatar_url: user.avatar_url,
-                }
+                };
 
                 //localStorage.setItem("🚀 ~ file: AuthContext.tsx:15 ~ signIn ~ result:", result.data.token); 
 
@@ -29,6 +31,11 @@ export function AuthProvider({children}:IAuthProvider){
 
             } catch (error) {
                 console.log("🚀 ~ file: AuthContext.tsx:17 ~ signIn ~ error:", error)
+                if(isAxiosError(error)){
+                    toast.error(error.response?.data.message);
+                }else{
+                    toast.error('we were unable to login. Try later - Não conseguimos fazer o login. Tente mais tarde ')
+                }
             }        
     }
     //const  [user, setUser] = useState('rian');
