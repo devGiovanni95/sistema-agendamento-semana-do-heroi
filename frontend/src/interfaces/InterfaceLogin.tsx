@@ -29,6 +29,7 @@ export interface IAuthProvider{
 
 export interface IAuthContextData{
     signIn:({ email, password}: ISignIn) => void;
+    signOut: () => void;
 }
 
 export interface ISignIn{

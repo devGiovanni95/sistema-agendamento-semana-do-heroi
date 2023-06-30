@@ -35,7 +35,7 @@ export function AuthProvider({children}:IAuthProvider){
                 return data;
 
             } catch (error) {
-               // console.log("🚀 ~ file: AuthContext.tsx:17 ~ signIn ~ error:", error)
+
                 if(isAxiosError(error)){
                     toast.error(error.response?.data.message);
                 }else{
@@ -43,10 +43,17 @@ export function AuthProvider({children}:IAuthProvider){
                 }
             }        
     }
-    //const  [user, setUser] = useState('rian');
+
+    function signOut(){
+        localStorage.removeItem('token:semana-heroi');                
+        localStorage.removeItem('refresh_token:semana-heroi'); 
+        localStorage.removeItem('user:semana-heroi'); 
+        navigate('/');
+    }
+
     return(
-        /**Pegando de forma desestruturada {{user}} */
-        <AuthContext.Provider value={{ signIn }}>
+
+        <AuthContext.Provider value={{ signIn , signOut}}>
             {children}
         </AuthContext.Provider>
     )
