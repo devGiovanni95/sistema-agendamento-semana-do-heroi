@@ -30,14 +30,21 @@
     display: flex;
 }
 
+.dropdownMenu.open{
+    opacity: 1;
+}
+
+
 .dropdownMenu{
     position: absolute;
     background-color: var(--primary);
     top: 90%;
     right: -20px;
     padding: 0;
-    list-style-type: none;/*Retirar bolinha da lista*/
+    list-style-type: none;
     border-radius: 8px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .dropdownMenuItem{

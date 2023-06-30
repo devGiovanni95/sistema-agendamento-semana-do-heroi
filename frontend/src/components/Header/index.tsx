@@ -19,13 +19,13 @@ export function Header() {
 
                     <CgProfile size={30} />
                     <span>Perfil</span>
-                    {open && (
-                        <ul className={style.dropdownMenu}>
+                   
+                        <ul className={`${style.dropdownMenu} ${open && style.open}`}>
                             <li className={style.dropdownMenuItem}>Agendamentos</li>
                             <li className={style.dropdownMenuItem}>Editar Perfil</li>
                             <li className={style.dropdownMenuItem}>Sair</li>
                         </ul>
-                    )}
+                   
                 </div>
             </div>
         </header >
