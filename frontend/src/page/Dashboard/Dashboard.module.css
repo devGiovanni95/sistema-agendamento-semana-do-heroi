@@ -23,7 +23,7 @@
 }
 
 .cardWrapper::-webkit-scrollbar-track{
-    background-color: var(--gray50);
+    background-color: var(--gray-50);
 }
 
 .cardWrapper::-webkit-scrollbar{
@@ -53,4 +53,22 @@
     border-radius: 10px;
     color: var(--white);
     box-shadow: 4px 8px 4px rgb(0, 0, 0, 0.3);
+}
+
+.day:not(.disable){
+     background-color: var(--white);
+     width: 40px;
+     height: 40px;
+     color: var(--black);
+     margin: .20rem;
+     border-radius: 5px;
+}
+
+.day.disable{
+    background-color:  var(--gray-200) !important;
+}
+
+.selected{
+    color: var(--white) !important;
+    background-color: var(--secondary) !important;
 }
