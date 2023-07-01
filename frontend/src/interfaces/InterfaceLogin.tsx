@@ -30,6 +30,7 @@ export interface IAuthProvider{
 export interface IAuthContextData{
     signIn:({ email, password}: ISignIn) => void;
     signOut: () => void;
+    user: IUserData;
 }
 
 export interface ISignIn{
@@ -40,4 +41,9 @@ export interface ISignIn{
 export interface IRequestConfig extends AxiosRequestConfig{
     onFailure?: (error: AxiosError) => void;
     onSuccess?: (response: AxiosResponse) => void;
+}
+
+export interface IUserData{
+    name: string;
+    avatar_url: string;
 }

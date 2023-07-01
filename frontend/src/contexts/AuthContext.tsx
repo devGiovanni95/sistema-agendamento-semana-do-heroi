@@ -8,7 +8,17 @@ import { useNavigate } from "react-router-dom";
 export const AuthContext = createContext({} as IAuthContextData);
 
 export function AuthProvider({children}:IAuthProvider){
-    const navigate = useNavigate()
+
+    const [user, setUser] = useState(()=> {
+        const user = localStorage.getItem('user:semana-heroi');
+        //se usuario existir desloga
+        if(user){
+            return JSON.parse(user);
+        }
+        return {}; 
+    })
+
+    const navigate = useNavigate();
     async function signIn({email, password}: ISignIn){
             try {
                 //const result = await api.post('/users/auth',{
@@ -31,7 +41,8 @@ export function AuthProvider({children}:IAuthProvider){
                 localStorage.setItem('user:semana-heroi',JSON.stringify(userData)); 
 
                 navigate('/dashboard');
-                toast.success(`Seja bem vindo, ${userData.name}`)
+                toast.success(`Seja bem vindo(a), ${userData.name}`);
+                setUser(userData);
                 return data;
 
             } catch (error) {
@@ -53,7 +64,7 @@ export function AuthProvider({children}:IAuthProvider){
 
     return(
 
-        <AuthContext.Provider value={{ signIn , signOut}}>
+        <AuthContext.Provider value={{ signIn , signOut, user}}>
             {children}
         </AuthContext.Provider>
     )

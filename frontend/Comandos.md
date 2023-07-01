@@ -13,8 +13,8 @@ tratar os erros nos formularios
 ## 
 ## yarn add react-toastify    - avisos
 ## 
-## 
-## 
+## npm add react-day-picker     --calendario
+## npm add date-fns             --complemento
 ## 
 ## 
 ## 
