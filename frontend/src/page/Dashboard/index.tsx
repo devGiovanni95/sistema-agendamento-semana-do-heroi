@@ -42,7 +42,7 @@ export function Dashboard() {
                     <Card/>
                 </div>
                 <div className={style.picker}>
-                    <DayPicker />
+                    <DayPicker className= {style.calendar} />
                 </div>
             </div>
         </div>
