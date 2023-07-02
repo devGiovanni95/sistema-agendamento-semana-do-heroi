@@ -35,3 +35,7 @@
 .icons svg {
     margin-right: .6rem;
 }
+
+.disabled{
+    background-color: brown !important;
+}

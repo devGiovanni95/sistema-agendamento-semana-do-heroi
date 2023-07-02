@@ -47,3 +47,10 @@ export interface IUserData{
     name: string;
     avatar_url: string;
 }
+
+export interface ISchedules{
+    name: string;
+    phone: string;
+    date: Date;
+    id: string;
+}

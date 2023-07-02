@@ -4,13 +4,16 @@ import { useAuth } from "../../hooks/auth";
 import style from './Dashboard.module.css';
 import 'react-day-picker/dist/style.css'
 import { Card } from "../Card";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ptBR from "date-fns/locale/pt-BR";
 import { format, isToday } from "date-fns";
+import { api } from "../../server";
+import { ISchedules } from "../../interfaces/InterfaceLogin";
 
 export function Dashboard() {
     const [date, setDate] = useState(new Date());
     const { user } = useAuth();
+    const [schedules, setSchedules] = useState<Array<ISchedules>>();
 
     const isWeekend = (date: Date) => {
         const day = date.getDay();
@@ -24,6 +27,19 @@ export function Dashboard() {
         setDate(date);
     }
 
+    useEffect(() => {
+        api.get('schedules', {
+            params: {
+                date,
+            }
+        }).then((response) => {
+            console.log("🚀 ~ file: index.tsx:33 ~ useEffect ~ response:", response)
+            /*Passando a resposta da requisição */
+            setSchedules(response.data)
+            
+        }).catch((error)=> console.log(error));
+    },[date])
+
     return (
         <div className="container">
             <Header />
@@ -34,7 +50,19 @@ export function Dashboard() {
             <h2 className={style.nextSchedules}>Próximos Horários</h2>
             <div className={style.schedule}>
                 <div className={style.cardWrapper}>
-                    <Card />
+
+                    {schedules?.map((schedule, index) => {                        
+                        return(
+                            <Card 
+                                key={index}
+                                date={schedule.date}
+                                name={schedule.name}
+                                id={schedule.id} 
+                                phone={schedule.phone}
+                            />
+
+                        ) 
+                    })}
 
                 </div>
                 <div className={style.picker}>
@@ -52,7 +80,7 @@ export function Dashboard() {
                         }}
                         onDayClick={handleDataChange}
                         locale={ptBR}
-                        fromMonth={new Date()}
+                        /*fromMonth={new Date()}*/
                     />
                 </div>
             </div>
