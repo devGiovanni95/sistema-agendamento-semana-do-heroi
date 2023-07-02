@@ -34,6 +34,7 @@
 
 .icons svg {
     margin-right: .6rem;
+    cursor: pointer;
 }
 
 .disabled{

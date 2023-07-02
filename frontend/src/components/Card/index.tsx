@@ -8,13 +8,17 @@ import { ModalEdit } from '../ModalEdit'
 
 export const Card = ({name, date, id, phone}: ISchedules) => {
     const isAfterDate = isAfter(new Date(date), new Date());
-    const [openModal, setOpenModal] = useState<boolean>(false)
+    const [openModal, setOpenModal] = useState<boolean>(false);
 
     let phoneFormatted = phone.replace(/\D/g, '');
     phoneFormatted = phoneFormatted.replace(
         /(\d{2})(\d{5})(\d{4})/,
         '($1) $2-$3', 
     )
+
+    const handleChangeModal = () => {
+        setOpenModal(!openModal)
+    }
 
     return(
         <>
@@ -30,20 +34,22 @@ export const Card = ({name, date, id, phone}: ISchedules) => {
                 </div>
 
                 <div className={style.icons}>
-                    <RiDeleteBinFill 
-                        color='#EB2E2E' 
-                        size={20}
-                        />
 
                     <CiEdit 
                         color='#5F6881' 
-                        size={20} 
-                        onClick={() => isAfterDate && setOpenModal(!openModal)}
+                        size={25} 
+                        onClick={() => isAfterDate && handleChangeModal()}
                     />
+
+                    <RiDeleteBinFill 
+                        color='#EB2E2E' 
+                        size={25}
+                        />
+
                 </div>
             </div>
 
-            <ModalEdit isOpen={openModal}/>
+            <ModalEdit isOpen={openModal} handleChangeModal={handleChangeModal}/>
         </> 
     )
 }
