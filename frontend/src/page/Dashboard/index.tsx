@@ -3,7 +3,7 @@ import { Header } from "../../components/Header";
 import { useAuth } from "../../hooks/auth";
 import style from './Dashboard.module.css';
 import 'react-day-picker/dist/style.css'
-import { Card } from "../Card";
+import { Card } from "../../components/Card";
 import { useEffect, useState } from "react";
 import ptBR from "date-fns/locale/pt-BR";
 import { format, isToday } from "date-fns";
