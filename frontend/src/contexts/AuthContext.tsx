@@ -1,5 +1,5 @@
-import { createContext, useState } from "react";
-import { IAuthContextData, IAuthProvider, ISignIn } from "../interfaces/InterfaceLogin";
+import { createContext, useEffect, useState } from "react";
+import { IAuthContextData, IAuthProvider, ISchedules, ISignIn } from "../interfaces/InterfaceLogin";
 import { api } from "../server";
 import { isAxiosError } from "axios";
 import { toast } from "react-toastify";
@@ -8,6 +8,12 @@ import { useNavigate } from "react-router-dom";
 export const AuthContext = createContext({} as IAuthContextData);
 
 export function AuthProvider({children}:IAuthProvider){
+    const [schedules, setSchedules] = useState<Array<ISchedules>>([]);
+    const [date, setDate] = useState('');
+
+    const availableSchedules = [
+        '09','10','11','12','13','14','15','16','17','18','19',
+    ]
 
     const [user, setUser] = useState(()=> {
         const user = localStorage.getItem('user:semana-heroi');
@@ -16,9 +22,28 @@ export function AuthProvider({children}:IAuthProvider){
             return JSON.parse(user);
         }
         return {}; 
-    })
+    });
 
     const navigate = useNavigate();
+    
+    const handleSetDate = (date: string) => {
+        setDate(date);
+    };
+
+    useEffect(() => {
+        api.get('/schedules', {
+            params: {
+                date,
+            },
+        })
+        .then((response)=> {
+            console.log("🚀UseEffect" , response)
+            setSchedules(response.data);
+            
+        })
+    },[date])
+
+
     async function signIn({email, password}: ISignIn){
             try {
                 //const result = await api.post('/users/auth',{
@@ -27,7 +52,7 @@ export function AuthProvider({children}:IAuthProvider){
                     password,
                 });
 
-                const {token, refresh_token,user} = data;
+                const {token, refresh_token, user} = data;
                 const userData = {
                     name: user.name,
                     email: user.email,
@@ -64,7 +89,7 @@ export function AuthProvider({children}:IAuthProvider){
 
     return(
 
-        <AuthContext.Provider value={{ signIn , signOut, user}}>
+        <AuthContext.Provider value={{ signIn , signOut, user, availableSchedules, schedules, date, handleSetDate }}>
             {children}
         </AuthContext.Provider>
     )

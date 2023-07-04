@@ -1,61 +1,67 @@
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import { ReactNode } from "react";
 
-export interface IInput{
+export interface IInput {
     placeholder: string;
     type: 'password' | 'text' | 'date';
     error?: string;
     icon?: ReactNode;
 }
 
-export interface IFormValuesLogin{
+export interface IFormValuesLogin {
     email: string;
     password: string;
 }
 
-export interface IFormValuesRegister{
+export interface IFormValuesRegister {
     name: string;
     email: string;
     password: string;
 }
 
-export interface IButton{
+export interface IButton {
     text: string;
 }
 
-export interface IAuthProvider{
+export interface IAuthProvider {
     children: ReactNode;
 }
 
-export interface IAuthContextData{
-    signIn:({ email, password}: ISignIn) => void;
+export interface IAuthContextData {
+    signIn: ({ email, password }: ISignIn) => void;
     signOut: () => void;
     user: IUserData;
+    availableSchedules: Array<string>;
+    schedules: Array<ISchedules>;
+    date: string;
+    handleSetDate: (date:string) => void;
 }
 
-export interface ISignIn{
+export interface ISignIn {
     email: string;
     password: string;
 }
 
-export interface IRequestConfig extends AxiosRequestConfig{
+export interface IRequestConfig extends AxiosRequestConfig {
     onFailure?: (error: AxiosError) => void;
     onSuccess?: (response: AxiosResponse) => void;
 }
 
-export interface IUserData{
+export interface IUserData {
     name: string;
     avatar_url: string;
 }
 
-export interface ISchedules{
+export interface ISchedules {
     name: string;
     phone: string;
     date: Date;
     id: string;
 }
 
-export interface IModal{
+export interface IModal {
     isOpen: boolean;
     handleChangeModal: () => void;
+    hour: number;
+    name: string;
 }
