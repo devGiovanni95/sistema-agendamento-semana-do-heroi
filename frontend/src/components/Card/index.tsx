@@ -5,6 +5,9 @@ import { ISchedules } from '../../interfaces/InterfaceLogin'
 import { getHours, isAfter } from 'date-fns'
 import { useState } from 'react'
 import { ModalEdit } from '../ModalEdit'
+import { isAxiosError } from 'axios'
+import { toast } from 'react-toastify'
+import { api } from '../../server'
 
 export const Card = ({ name, date, id, phone }: ISchedules) => {
     const isAfterDate = isAfter(new Date(date), new Date());
@@ -23,6 +26,17 @@ export const Card = ({ name, date, id, phone }: ISchedules) => {
         setOpenModal(!openModal)
     }
 
+    const handleDelete = async ()=> {
+        try {
+           const result = await api.delete(`/schedules/${id}`);
+            toast.success('Deleted successfully');
+           console.log("🚀 ~ file: index.tsx:33 ~ handleDelete ~ result:", result)
+        } catch (error) {
+            if(isAxiosError(error)){
+                toast.error(error.response?.data.message);
+            }
+        }
+    }
     return (
         <>
             <div className={style.background}>
@@ -42,12 +56,13 @@ export const Card = ({ name, date, id, phone }: ISchedules) => {
                         color='#5F6881'
                         size={25}
                         onClick={() => isAfterDate && handleChangeModal()}
-                    />
+                        />
 
                     <RiDeleteBinFill
                         color='#EB2E2E'
                         size={25}
-                    />
+                        onClick={() => isAfterDate && handleDelete()}
+                        />
 
                 </div>
             </div>
@@ -55,7 +70,8 @@ export const Card = ({ name, date, id, phone }: ISchedules) => {
             <ModalEdit
                 isOpen={openModal}
                 handleChangeModal={handleChangeModal}
-                hour={hour}
+                hour={String(hour)}
+                id={id}
                 name={name}
             />
         </>

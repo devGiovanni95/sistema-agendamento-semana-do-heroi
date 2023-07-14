@@ -62,6 +62,7 @@ export interface ISchedules {
 export interface IModal {
     isOpen: boolean;
     handleChangeModal: () => void;
-    hour: number;
+    hour: string;
     name: string;
+    id: string;
 }

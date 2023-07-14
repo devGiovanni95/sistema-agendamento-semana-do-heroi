@@ -4,11 +4,13 @@ import { IModal } from '../../interfaces/InterfaceLogin'
 import { useAuth } from '../../hooks/auth'
 import { useEffect, useState } from 'react'
 import { api } from '../../server'
-import { getHours } from 'date-fns'
+import { formatISO, getHours, parseISO, setHours, format } from 'date-fns'
+import { toast } from 'react-toastify'
+import { isAxiosError } from 'axios'
 
-export function ModalEdit({ isOpen, handleChangeModal, hour, name }: IModal) {
+export function ModalEdit({ isOpen, handleChangeModal, hour, name, id }: IModal) {
     const { availableSchedules, schedules, date, handleSetDate } = useAuth();
-    const [hourSchedule, setHourSchedule] = useState('')
+    const [hourSchedule, setHourSchedule] = useState('');
 
     const currentData = new Date().toISOString().split('T')[0];
 
@@ -22,10 +24,29 @@ export function ModalEdit({ isOpen, handleChangeModal, hour, name }: IModal) {
     })
     console.log("🚀Data Filtrada", filteredDate)
 
-    const handleChangeHour = (hour: string) =>{
+    const handleChangeHour = (hour: string) => {
         setHourSchedule(hour)
         console.log("🚀 ~ file: index.tsx:27 ~ handleChangeHour ~ hour:", hour)
     };
+
+    const updateData = async () => {
+        const formattedDate = formatISO(
+            setHours(parseISO(date), parseInt(hourSchedule)),
+        )
+        try {
+            await api.put(`/schedules/${id}`, {
+                date: formattedDate
+            })
+            toast.success('Date update successfully');
+            handleChangeModal();
+        } catch (error) {
+            console.log("🚀 ~ file: index.tsx:41 ~ updateData ~ error:", error)
+            if(isAxiosError(error)){
+                toast.error(error.response?.data.message);
+            }
+            
+        }
+    }
 
     if (isOpen) {
 
@@ -76,7 +97,7 @@ export function ModalEdit({ isOpen, handleChangeModal, hour, name }: IModal) {
                     </div>
                     <div className={style.footer}>
                         <button onClick={handleChangeModal}>Cancelar</button>
-                        <button>Editar</button>
+                        <button onClick={updateData}>Editar</button>
                     </div>
                 </div>
             </div>
