@@ -100,8 +100,7 @@ class UsersService {
         if (!secretKey) {
             throw new Error("There is no token key ");
         }
-        let secretKeyRefreshToken: string | undefined =
-            process.env.ACCESS_KEY_TOKEN_REFRESH;
+        let secretKeyRefreshToken: string | undefined = process.env.ACCESS_KEY_TOKEN_REFRESH;
         if (!secretKeyRefreshToken) {
             throw new Error('There is no token key');
         }
@@ -128,22 +127,23 @@ class UsersService {
     }
 
     async refresh(refresh_token: string) {
+
         if (!refresh_token) {
             throw new Error('Refresh token missing');
         }
 
-        let secretKeyRefresh: string | undefined =
-            process.env.ACCESS_KEY_TOKEN_REFRESH;
+        let secretKeyRefresh: string | undefined = process.env.ACCESS_KEY_TOKEN_REFRESH;
         if (!secretKeyRefresh) {
             throw new Error('There is no refresh token key');
         }
-
+        
         let secretKey: string | undefined = process.env.ACCESS_KEY_TOKEN;
         if (!secretKey) {
             throw new Error('There is no refresh token key');
         }
-        const verifyRefreshToken = verify(refresh_token, secretKeyRefresh);
-
+        
+        const verifyRefreshToken = await verify(refresh_token, secretKeyRefresh);
+        
         //pegando o id que esta no sub
         const { sub } = verifyRefreshToken;
 

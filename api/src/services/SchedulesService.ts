@@ -17,10 +17,10 @@ class SchedulesService{
         const hourStart = startOfHour(dateFormatted);
         
         //pegar hora
-        const hour = getHours(dateFormatted);
+        const hour = getHours(hourStart);
 
         //comparando as horas
-        if(hour < 9 || hour > 19){
+        if(hour <= 8 || hour > 20){
             throw new Error('Create Schedules between 9 and 19 - Crie o Agendamento entre 9 e 19 horas.');
         }
 
@@ -45,6 +45,7 @@ class SchedulesService{
 
         return create;
     }
+    
     async index(date: Date){
         const result = await this.schedulesRepository.findAll(date);
         return result;
@@ -70,5 +71,17 @@ class SchedulesService{
         const result = await this.schedulesRepository.update(id, date);
         return result;
     }
+
+    async delete(id: string) {
+        const checkExists = await this.schedulesRepository.findById(id);
+    
+        if (!checkExists) {
+          throw new Error('Schedule does not exists');
+        }
+    
+        const result = await this.schedulesRepository.delete(id);
+    
+        return result;
+      }
 }
 export {SchedulesService}

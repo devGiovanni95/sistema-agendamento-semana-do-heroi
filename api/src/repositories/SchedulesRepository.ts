@@ -56,5 +56,14 @@ class SchedulesRepository{
         });
         return result;
     }
+
+    async delete(id: string) {
+        const result = await prisma.schedule.delete({
+          where: {
+            id,
+          },
+        });
+        return result;
+      }
 }
 export {SchedulesRepository};
