@@ -35,6 +35,7 @@ export interface IAuthContextData {
     schedules: Array<ISchedules>;
     date: string;
     handleSetDate: (date:string) => void;
+    isAuthenticated: boolean;
 }
 
 export interface ISignIn {
@@ -65,4 +66,8 @@ export interface IModal {
     hour: string;
     name: string;
     id: string;
+}
+
+export interface IPrivateRoute{
+    children: ReactNode;
 }

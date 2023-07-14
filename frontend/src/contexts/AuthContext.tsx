@@ -24,6 +24,8 @@ export function AuthProvider({children}:IAuthProvider){
         return {}; 
     });
 
+    const isAuthenticated = !!user && Object.keys(user).length != 0;
+
     const navigate = useNavigate();
     
     const handleSetDate = (date: string) => {
@@ -89,7 +91,7 @@ export function AuthProvider({children}:IAuthProvider){
 
     return(
 
-        <AuthContext.Provider value={{ signIn , signOut, user, availableSchedules, schedules, date, handleSetDate }}>
+        <AuthContext.Provider value={{ signIn , signOut, user, availableSchedules, schedules, date, handleSetDate, isAuthenticated }}>
             {children}
         </AuthContext.Provider>
     )
