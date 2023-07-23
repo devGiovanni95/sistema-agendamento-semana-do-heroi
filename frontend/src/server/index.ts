@@ -29,7 +29,7 @@ api.interceptors.response.use(
         const originalRequest = (error as AxiosError).config as IRequestConfig;
 
         if (error instanceof AxiosError && error.response?.status === 401) {
-            if (/*error.response?.data && */error.response?.data.code === 'token.expired') {
+            if (error.response?.data && error.response?.data.code === 'token.expired') {
                 if(!isRefreshing){
                     try {
                         const refresh = localStorage.getItem('refresh_token:semana-heroi');

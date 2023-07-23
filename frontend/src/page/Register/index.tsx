@@ -1,7 +1,7 @@
 import style from './Register.module.css'
 import logo from './../../assets/logo.webp'
 import { Input } from '../../components/Input'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {Button} from "./../../components/Button"
 import * as yup from 'yup'
 import { IFormValuesRegister } from '../../interfaces/InterfaceLogin'
@@ -11,8 +11,11 @@ import {MdEmail} from 'react-icons/md';
 import {IoMdPersonAdd} from 'react-icons/io';
 import {RiLockPasswordFill} from 'react-icons/ri';
 import { api } from '../../server'
+import { toast } from 'react-toastify'
 
 export function Register(){
+const navigate = useNavigate();
+
     const schema = yup.object().shape({
         name: yup
             .string()
@@ -33,14 +36,18 @@ export function Register(){
     } = useForm<IFormValuesRegister>({resolver: yupResolver(schema)});
 
     const submit = handleSubmit(async(data) => {
-    // console.log("🚀 ~ file: index.tsx:32 ~ submit ~ data:", data)
-        const result = await api.post('/users', {
-            name: data.name,
-            email: data.email,
-            password: data.password
-
-        })
-        console.log("🚀 ~ file: index.tsx:43 ~ submit ~ result:", result)
+try {
+    const result = await api.post('/users', {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        
+    })
+    toast.success('Cadastrado com sucesso')
+    navigate('/')
+} catch (error) {
+    toast.error('Erro ao cadastrar')
+}
     })
 
     return(
@@ -79,7 +86,7 @@ export function Register(){
                         {...register('password', {required: true})}
                         error={errors.password && errors.password.message}
                         icon={ <RiLockPasswordFill size={20}/>}   
-                         />
+                        />
                          <Button text='Cadastrar'/>
                      </form>
                      <div className={style.register}>
@@ -96,4 +103,5 @@ export function Register(){
          </div>
      </div>
     )
+    console.log("🚀 ~ file: index.tsx:62 ~ Register ~ submit:", submit)
 }

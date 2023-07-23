@@ -29,11 +29,13 @@ class UsersController {
         try {
             //criando nosso usuario
             const result = await this.usersService.create({ name, email, password });
+            console.log("🚀 ~ file: UsersController.ts:32 ~ UsersController ~ store ~ result:", result)
 
             //resposta da solicitação
             return response.status(201).json(result);
         } catch (error) {
             next(error);
+            console.log("🚀 ~ file: UsersController.ts:37 ~ UsersController ~ store ~ error:", error)
         }
 
     }
