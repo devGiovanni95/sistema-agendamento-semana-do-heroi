@@ -1,12 +1,15 @@
 .formDiv{
     width: 50%;
     margin: auto;
-} 
+    margin-top: 2rem;
+}
+
 
 .footer{
     display: flex;
     justify-content: space-between;
     color: var(--secondary);
+    margin-top: 1.5rem;
 }
 
 .footer>button:first-child:hover{
@@ -32,35 +35,30 @@
     background-color: var(--secondary-50);
 }
 
-.date{
-    display: flex;
-    justify-content: space-between;
-    align-items: center ;
-    margin-bottom: 1rem;
+.fileUpload img{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
 }
 
-.date select{
-    border: 1px solid var(--primary);
-    border-radius: 16px;
-    color: var(--primary);
-    background-color: transparent;
-    align-items: center;
-    height: fit-content;
-    padding: .5rem;
+.fileUpload{
+    width: 100%;
+    text-align: center;
+    position: relative;
 }
 
-.container h2{
-    font-weight: 300;
-    color: var(--primary);
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+.imageUpload input[type='file'] {
+    display: none;
 }
 
-.select{
-    display: flex; 
-    flex-direction: column;
-    width: 30%;
-}
-.select label{
-    color: var(--primary);
+.imageUpload {
+    background-color: var(--primary);
+    padding: 10px;
+    border-radius: 50%;
+    display: inline-flex;
+    color: var(--white);
+    position: absolute;
+    bottom: 10px;
+    right: 23%;
+    cursor: pointer;
 }

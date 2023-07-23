@@ -34,7 +34,7 @@ export interface IAuthContextData {
     availableSchedules: Array<string>;
     schedules: Array<ISchedules>;
     date: string;
-    handleSetDate: (date:string) => void;
+    handleSetDate: (date: string) => void;
     isAuthenticated: boolean;
 }
 
@@ -68,6 +68,23 @@ export interface IModal {
     id: string;
 }
 
-export interface IPrivateRoute{
+export interface IPrivateRoute {
     children: ReactNode;
+}
+
+export interface IFormValuesProfile {
+    picture: File[];
+    name: string;
+    email: string;
+    password: string;
+    newPassword: string;
+    confirmPassword: string;
+}
+
+export interface IDataProfile {
+    newPassword?: string;
+    oldPassword?: string;
+    name?: string;
+    avatar_url?: File;
+
 }
