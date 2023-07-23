@@ -6,17 +6,15 @@ import { IFormValuesLogin } from "../../interfaces/InterfaceLogin"
 import * as yup from 'yup'
 import { yupResolver } from "@hookform/resolvers/yup"
 import { Button } from "./../../components/Button"
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { MdEmail } from "react-icons/md"
 import { RiLockPasswordFill } from "react-icons/ri"
-import { api } from "../../server"
 import { useAuth } from "../../hooks/auth"
 
 
 export function Login() {
 
     const { signIn } = useAuth();
-    const navigate = useNavigate();
 
     const schema = yup.object().shape({
         email: yup

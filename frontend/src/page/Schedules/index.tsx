@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import { Header } from '../../components/Header'
 import style from './Schedules.module.css'
 import { InputSchedule } from '../../components/InputSchedule'
@@ -7,7 +7,7 @@ import { useAuth } from '../../hooks/auth';
 import { formatISO, getHours, parseISO, setHours } from 'date-fns';
 import { api } from '../../server';
 import { toast } from 'react-toastify';
-import { AxiosError, isAxiosError } from 'axios';
+import {  isAxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -28,7 +28,7 @@ export function Schedules() {
     })
 
     const { register, handleSubmit, formState:{errors} } = useForm<IFormValues>({resolver: yupResolver(schema)});
-    const { availableSchedules, schedules, date, handleSetDate } = useAuth();
+    const { availableSchedules, schedules, handleSetDate } = useAuth();
     const navigate = useNavigate();
 
     const [hourSchedule, setHourSchedule] = useState('');
@@ -47,7 +47,7 @@ export function Schedules() {
         setHourSchedule(hour);
     };
 
-    const submit = handleSubmit(async ({name, phone, date, hour}) => {
+    const submit = handleSubmit(async ({name, phone, date}) => {
         const formattedDate = formatISO(
             setHours(parseISO(date), parseInt(hourSchedule)),
         );

@@ -21,7 +21,7 @@ export function EditProfile() {
         confirmPassword: yup.string().oneOf([yup.ref('newPassword')], 'Senhas devem ser iguais.'),
     });
 
-    const { register, handleSubmit, setValue } = useForm<IFormValuesProfile>({
+    const { register, handleSubmit, setValue } = useForm<IFormValuesProfile | any>({
         resolver: yupResolver(schema)
     });
 
@@ -63,6 +63,7 @@ export function EditProfile() {
                     'Content-Type':'multpart/form-data',
                 },
             })
+            console.log("🚀 ~ file: index.tsx:66 ~ submit ~ result:", result)
             toast.success('Usuário atualizado com sucesso');
             navigate('/dashboard');
 
