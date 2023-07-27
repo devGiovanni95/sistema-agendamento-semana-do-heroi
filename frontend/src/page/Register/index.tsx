@@ -43,6 +43,7 @@ try {
         password: data.password,
         
     })
+    console.log("🚀 ~ file: index.tsx:46 ~ submit ~ result:", result)
     toast.success('Cadastrado com sucesso')
     navigate('/')
 } catch (error) {
