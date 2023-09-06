@@ -6,6 +6,9 @@ import cors from 'cors';
 const app: Application = express();
 //acessar via frontend
 app.use(cors());
+app.use(cors({
+    origin: ['http://localhost:3000', 'https://api-agendamento-semana-heroi.onrender.com/']
+  }))
 //Converter tudo em json
 app.use(express.json());
 //converter espaços nas urls e troca espaços por %
