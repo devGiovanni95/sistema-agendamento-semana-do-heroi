@@ -2,8 +2,7 @@ import axios, { AxiosError } from "axios";
 import { IRequestConfig } from "../interfaces/InterfaceLogin";
 
 const api = axios.create({
-    baseURL: 'http://localhost:3000',
-
+    baseURL: 'https://api-agendamento-semana-heroi.onrender.com',
 });
 
 const refreshSubscribers: Array<(token: string) => void>  = [];
